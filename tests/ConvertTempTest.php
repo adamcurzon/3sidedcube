@@ -88,9 +88,7 @@ class ConvertTempTest extends KernelTestCase {
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('-573.33', $output);
     }
-    /**
-     * @expectedException PHPUnit\Framework\Error\Error
-     */
+
     public function testInvalid(){
         // Not a number
         $this->commandTester->execute(array(
