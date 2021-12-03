@@ -88,4 +88,38 @@ class ConvertTempTest extends KernelTestCase {
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('-573.33', $output);
     }
+    /**
+     * @expectedException PHPUnit\Framework\Error\Error
+     */
+    public function testInvalid(){
+        // Not a number
+        $this->commandTester->execute(array(
+            'temperature' => 'abc',
+            'input_unit' => "fahrenheit",
+            'output_unit' => "celsius"
+        ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('not a number', $output);
+
+        // Invalid units
+        $this->commandTester->execute(array(
+            'temperature' => 10,
+            'input_unit' => "meters",
+            'output_unit' => "feet"
+        ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('unit is not valid', $output);
+
+        // Same units
+        $this->commandTester->execute(array(
+            'temperature' => 10,
+            'input_unit' => "celsius",
+            'output_unit' => "celsius"
+        ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('unit is not valid', $output);
+    }
 }
